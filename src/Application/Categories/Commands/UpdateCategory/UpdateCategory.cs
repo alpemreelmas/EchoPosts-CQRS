@@ -1,8 +1,10 @@
 ﻿using DotnetBlogApi.Application.Common.Interfaces;
+using DotnetBlogApi.Domain.Common;
+using DotnetBlogApi.Domain.Entities;
 
 namespace DotnetBlogApi.Application.Categories.Commands.UpdateCategory;
 
-public record UpdateCategoryCommand : IRequest
+public record UpdateCategoryCommand : IRequest<ResultObject<Category>>
 {
     public int Id { get; init; }
 
@@ -10,7 +12,7 @@ public record UpdateCategoryCommand : IRequest
 
 }
 
-public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand>
+public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand,ResultObject<Category>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -19,7 +21,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         _context = context;
     }
 
-    public async Task Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<ResultObject<Category>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Category
             .FindAsync(new object[] { request.Id }, cancellationToken);
@@ -29,5 +31,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         entity.Name = request.Name;
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        return Result<Category>.Success(entity);
     }
 }

@@ -1,9 +1,10 @@
 ﻿# For more info on HTTP files go to https://aka.ms/vs/httpfile
-@Web_HostAddress = https://localhost:5001
-
+@Web_HostAddress=https://localhost:5001
 @Email=administrator@localhost
 @Password=Administrator1!
 @BearerToken=CfDJ8MkCz1Myt6xJq4kyYJA_ndfqklYEFH3G1nf4FY2gZ8eA2N40VRfIo4rxPhISA1ulH4MTkZ6cLnQaUFBWe-TIPZlARipV0jnVTUgZVXXw679fY0ngRyNOcHrIT2iYglynbMlSSQRmTZX8EMDVPoRvT05aq058x8WfkbmjlM6VjBv4JnwwhhOHDakjx6AX5A7FYuA0XBkmprdWHJ2q6tVzU6SSooO9fq89HH-nFabDIU5Mpu79UuJX6xCa9poYN5tz-ieVEcDhGr6tw05H9GXmkNusn3P_OuGvNh0_jIScVhF7xW_H9pZCBs521hNglKvp6wlQOEGdR8j_-Wdn55pSbXiqIkqJjwRMKS0WaHx-u6FgXw7Z5IECnjUSCGaDzM521ppRy-9Mb2JmsOUccYbm2KYeDZpYlowjvB9Lt9SRwmH6DlUBr2OP7nciStkSrltIH1WqxiYNCtZeCGX_JyHV7RSHe_Int0Q_3OzMAYAFc5hmnvQWB8Oxk8z7af6xHW6cP7TA3Fwdmh77asaNZK8hK0q4fS3olzwxkXIBebLfgw_jL8ZR9T9a82dYG-OS7uNM3W6PSbUL3NjcrM0q02Ku2nGvOC-N6pZNz0r6PLKGisHslOL62_mU3yxLq6z3VUY71fnJKr6QlaWZKskIGAJ78kcSzouAjD8nSV8WulV51aDhyGz6ea7_IfVBXUS8iDOrhNMNIpfl7OZRm7pEKoRc3EVsk8BixLnSm1239t0NUdhNMfuz7G8U4FOvSeRASAveIqbSYl5tMQpXLkOl3p8AzSfzTQSRqqwp_KnKd-dVOVxsXbHHFyTE0wmsFq5YhVhm4g
+
+###
 
 # POST Users Register
 POST {{Web_HostAddress}}/api/Users/Register
@@ -12,6 +13,17 @@ Content-Type: application/json
 {
   "email": "{{Email}}",
   "password": "{{Password}}"
+}
+
+###
+
+
+# POST Users Register
+POST {{Web_HostAddress}}/api/Categories
+Content-Type: application/json
+
+{
+  "Name": "Food"
 }
 
 ###

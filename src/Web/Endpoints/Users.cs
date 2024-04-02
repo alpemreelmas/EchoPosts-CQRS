@@ -1,4 +1,4 @@
-﻿using DotnetBlogApi.Infrastructure.Identity;
+﻿using DotnetBlogApi.Domain.Entities;
 
 namespace DotnetBlogApi.Web.Endpoints;
 

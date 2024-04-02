@@ -1,11 +1,12 @@
 ﻿using DotnetBlogApi.Application.Common.Interfaces;
+using DotnetBlogApi.Domain.Common;
 using DotnetBlogApi.Domain.Events;
 
 namespace DotnetBlogApi.Application.Categories.Commands.DeleteCategory;
 
-public record DeleteCategoryCommand(int Id) : IRequest;
+public record DeleteCategoryCommand(int Id) : IRequest<ResultObject>;
 
-public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
+public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, ResultObject>
 {
     private readonly IApplicationDbContext _context;
 
@@ -14,7 +15,7 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         _context = context;
     }
 
-    public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<ResultObject> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Category
             .FindAsync(new object[] { request.Id }, cancellationToken);
@@ -26,6 +27,8 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         //entity.AddDomainEvent(new CategoryDeletedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
     }
 
 }

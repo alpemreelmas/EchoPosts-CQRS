@@ -1,4 +1,7 @@
+using System.Net;
+using DotnetBlogApi.Application.Common.Exceptions;
 using DotnetBlogApi.Infrastructure.Data;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +43,25 @@ app.MapRazorPages();
 
 app.MapFallbackToFile("index.html");
 
-app.UseExceptionHandler(options => { });
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+
+        if (contextFeature?.Error is NotFoundException)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+        }
+        if (contextFeature?.Error is ForbiddenAccessException)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        }
+
+        await context.Response.WriteAsJsonAsync(new { contextFeature?.Error?.Message });
+        await context.Response.CompleteAsync();
+    });
+}); 
 
 app.Map("/", () => Results.Redirect("/api"));
 
